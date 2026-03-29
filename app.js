@@ -3,20 +3,31 @@
    ============================================================ */
 
 // -- Presets -------------------------------------------------------
-// visual_min_dist controls the Latin-lookalike exclusion threshold.
-// Higher values ensure no character visually resembles Latin letters.
-// The presets form a smooth gradient from invisible (perfect doubles)
-// to total (nothing Latin-looking remains).
+// phonetic_ratio shifts the blend from visual-first (0.0) to phonetic-first (1.0).
+// Higher values produce more estrangement: characters sound right but look
+// completely foreign. The presets form a gradient from subtle shimmer to total alienization.
 
+// phonetic_ratio: fraction of target positions that attempt phonetic first.
+// 0.0 = all visual (subtle), 1.0 = all phonetic (maximum estrangement).
 const PRESETS = {
+  sneaky: {
+    label: "Sneaky",
+    description:
+      "Invisible to the naked eye. Only perfect visual doubles — characters that look identical to Latin.",
+    replacement_rate: 1.0,
+    visual_max_dist:  0.0,
+    phonetic_max_dist: 0.0,
+    phonetic_ratio:   0.0,
+    prefer_scripts: null,
+  },
   subtle: {
     label: "Subtle",
     description:
       "A faint foreign shimmer. Only the closest diacritics and form variants.",
     replacement_rate: 0.2,
-    visual_max_dist: 0.04,
-    visual_min_dist: 0.0,
+    visual_max_dist:  0.04,
     phonetic_max_dist: 0.0,
+    phonetic_ratio:   0.0,
     prefer_scripts: null,
   },
   threshold: {
@@ -24,29 +35,29 @@ const PRESETS = {
     description:
       "Readability starts to tip. Latin silhouette still recognizable.",
     replacement_rate: 0.5,
-    visual_max_dist: 0.10,
-    visual_min_dist: 0.0,
+    visual_max_dist:  0.12,
     phonetic_max_dist: 0.30,
+    phonetic_ratio:   0.2,
     prefer_scripts: null,
   },
   drastic: {
     label: "Drastic",
     description:
-      "Beyond readability. Forms still guessable, characters foreign.",
+      "Beyond readability. Phonetic estrangement takes over.",
     replacement_rate: 0.8,
-    visual_max_dist: 0.18,
-    visual_min_dist: 0.03,
-    phonetic_max_dist: 0.45,
+    visual_max_dist:  0.18,
+    phonetic_max_dist: 0.50,
+    phonetic_ratio:   0.5,
     prefer_scripts: null,
   },
   total: {
     label: "Total",
     description:
-      "Full alienization. No Latin-looking characters remain.",
+      "Full alienization. Mostly phonetic — sounds right, looks completely foreign.",
     replacement_rate: 1.0,
-    visual_max_dist: 0.25,
-    visual_min_dist: 0.08,
-    phonetic_max_dist: 0.55,
+    visual_max_dist:  0.25,
+    phonetic_max_dist: 0.60,
+    phonetic_ratio:   0.8,
     prefer_scripts: null,
   },
 };
@@ -188,8 +199,8 @@ function applyPreset(key) {
 
   activePreset = key;
 
-  sliderRate.value = Math.round(p.replacement_rate * 100);
-  sliderVisual.value = Math.round(p.visual_max_dist * 100);
+  sliderRate.value     = Math.round(p.replacement_rate  * 100);
+  sliderVisual.value   = Math.round(p.visual_max_dist   * 100);
   sliderPhonetic.value = Math.round(p.phonetic_max_dist * 100);
   updateSliderDisplays();
 
@@ -282,19 +293,20 @@ function getSelectedScripts() {
 // -- Slider Displays ------------------------------------------------
 
 function updateSliderDisplays() {
-  valRate.textContent = sliderRate.value + "%";
-  valVisual.textContent = (sliderVisual.value / 100).toFixed(2);
+  valRate.textContent     = sliderRate.value + "%";
+  valVisual.textContent   = (sliderVisual.value   / 100).toFixed(2);
   valPhonetic.textContent = (sliderPhonetic.value / 100).toFixed(2);
 }
 
 // -- Event Binding --------------------------------------------------
 
 function bindEvents() {
-  // Preset clicks
+  // Preset clicks — re-run alienization automatically if already started
   presetButtons.addEventListener("click", (e) => {
     const btn = e.target.closest(".preset-btn");
     if (!btn) return;
     applyPreset(btn.dataset.preset);
+    if (lastResult) runAlienization();
   });
 
   // Sliders — update display on input, clear preset
@@ -329,9 +341,9 @@ function bindEvents() {
   // Alienize button
   btnAlienize.addEventListener("click", runAlienization);
 
-  // Keyboard shortcut: Ctrl/Cmd+Enter
+  // Enter triggers alienization; Shift+Enter inserts a newline
   inputText.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       runAlienization();
     }
@@ -392,12 +404,12 @@ function runAlienization() {
   const seed = seedVal ? parseInt(seedVal, 10) : null;
 
   const params = {
-    replacement_rate: sliderRate.value / 100,
-    visual_max_dist: sliderVisual.value / 100,
-    visual_min_dist: 0,
+    replacement_rate:  sliderRate.value     / 100,
+    visual_max_dist:   sliderVisual.value   / 100,
     phonetic_max_dist: sliderPhonetic.value / 100,
-    prefer_scripts: getSelectedScripts(),
-    seed: seed,
+    phonetic_ratio:    activePreset ? (PRESETS[activePreset]?.phonetic_ratio ?? 0) : 0,
+    prefer_scripts:    getSelectedScripts(),
+    seed:              seed,
   };
 
   lastResult = alienisiere(text, visualTable, phoneticTable, params);
