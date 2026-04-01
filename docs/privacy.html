@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Alienizer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    main.privacy-page {
+      max-width: 740px;
+    }
+
+    @media (min-width: 768px) {
+      main.privacy-page {
+        max-width: 740px;
+      }
+    }
+
+    .privacy-page header {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+
+    .back-btn {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fg);
+      text-decoration: none;
+      letter-spacing: 0;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.1s;
+    }
+
+    .back-btn:hover { color: var(--accent); }
+
+    .privacy-article {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .privacy-article h2 {
+      margin: 0 0 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--fg);
+    }
+
+    .privacy-article p {
+      margin: 0 0 0.85rem;
+      color: var(--fg);
+    }
+
+    .privacy-article a {
+      color: var(--fg);
+      text-decoration: underline;
+      text-decoration-color: var(--border-light);
+      text-underline-offset: 2px;
+    }
+
+    .privacy-article a:hover {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    .privacy-footer {
+      margin-top: 2rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+    }
+
+    .privacy-footer a {
+      color: var(--fg-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .privacy-footer a:hover { color: var(--accent); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <main class="privacy-page">
+    <header>
+      <a href="index.html" class="back-btn" aria-label="Back to Alienizer">&larr;</a>
+      <h1>Alienizer</h1>
+      <p class="subtitle">Similar Character Substitution</p>
+    </header>
+
+    <article class="privacy-article">
+      <h2>Privacy Policy</h2>
+
+      <p><strong>Alienizer Browser Extension</strong></p>
+
+      <p>This extension does not collect, store, transmit, or share any personal or sensitive user data.</p>
+
+      <p>The only data stored is user preferences (intensity settings, preset selection, auto-activation toggle) using <code>chrome.storage.sync</code>, which remains on the user's device and syncs only through the user's own Chrome profile.</p>
+
+      <p>No analytics, tracking, or third-party services are used.</p>
+
+      <p>Contact: <a href="mailto:simon.roloff@gmail.com">simon.roloff@gmail.com</a></p>
+    </article>
+
+    <div class="privacy-footer">
+      <span>By <a href="https://roloffsimon.com" target="_blank" rel="noopener">Simon Roloff</a></span>
+      <span><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span>
+    </div>
+  </main>
+
+</body>
+</html>
