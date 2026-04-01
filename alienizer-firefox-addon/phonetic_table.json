@@ -1,4 +1,4 @@
-window.__PHONETIC_TABLE__ = {
+{
   "a": [
     {
       "dist": 0.0,
@@ -16805,4 +16805,4 @@ window.__PHONETIC_TABLE__ = {
       "name": "GEORGIAN SMALL LETTER ZHAR"
     }
   ]
-};
+}

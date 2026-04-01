@@ -189,21 +189,24 @@
 
         <p>Das lateinische Alphabet teilt seine Formen mit vielen anderen Schriften. Ein kyrillisches „а" (U+0430) und ein lateinisches „a" sehen identisch aus – sind aber zwei verschiedene Zeichen aus zwei verschiedenen Kulturen. Ein griechisches „ο", ein armenisches „ο" sind sich sehr ähnlich, ein georgisches „ო" sieht schon etwas anders aus. Und natürlich gibt es Zeichen wie das Devanagari-म, das Äthiopische ም oder das Adlam-𞤃, die alle den gleichen Laut tragen aber visuell völlig verschiedene Dimensionen besitzen.</p>
 
-        <p>Alienizer nutzt diesen Spielraum der Schrift: Das Programm durchsucht den gesamten Unicode-Zeichenraum – über 150.000 codierte Zeichen aus mehr als 150 Schriftsystemen – nach Zeichen, die einem lateinischen Buchstaben ähneln oder denselben Laut tragen, und bietet sie je nach Grad der gewünschten Ähnlichkeit zum Ausgangstext als Ersatz an.</p>
+        <p>Alienizer nutzt diese sogenannten Homoglyphen in der Schrift: Das Programm durchsucht den gesamten Unicode-Zeichenraum – über 150.000 codierte Zeichen aus mehr als 150 Schriftsystemen – nach Zeichen, die einem lateinischen Buchstaben ähneln (oder denselben Laut tragen, dazu gleich mehr), ordnet sie nach dem Grad der Ähnlichkeit zum Ausgangstext und ersetzt gegebenenfalls mit ihnen den Ausgangstext.</p>
 
-        <p>Die Substitution lateinischer Buchstaben durch Äquivalente wird auch in einer besonderen Form des Phishings verwendet, dem <em>IDN-Homograph-Angriff</em>, bei dem täuschend ähnlich geschriebene Domain-Namen für Phishing-Seiten registriert werden. Alienizer verwendet diesen Mechanismus nicht, um Identität vorzutäuschen, sondern um in einer Gegenwart, die zunehmend von maschinell generiertem Text geprägt ist, die scheinbare Stabilität der Beziehung zwischen Laut und Schriftzeichen, Wort und Bedeutung zu befragen.</p>
+        <p>Die Substitution lateinischer Buchstaben durch visuell ähnliche Äquivalente ist auch die Grundlage des <em>IDN-Homograph-Angriffs</em>, bei dem täuschend echte Domain-Namen für Phishing registriert werden. Alienizer nutzt denselben Mechanismus nicht zur Täuschung, sondern um in einer zunehmend von maschinell generiertem Text geprägten Gegenwart die scheinbare Stabilität der Beziehung zwischen Laut und Zeichen, Wort und Bedeutung in Frage zu stellen.</p>
 
         <h3>Was man damit machen kann</h3>
 
         <p><strong>Einen Text transformieren und exportieren.</strong> Den transformierten Text als Datei herunterladen oder in die Zwischenablage kopieren – für den Einsatz in anderen Programmen, als Druckvorlage oder für weitere Verarbeitung.</p>
 
-        <p><strong>Die Zeichen untersuchen.</strong> Fährt man mit der Maus über ein substituiertes Zeichen, zeigt ein Tooltip den Unicode-Namen, das Schriftsystem und den visuellen Distanzwert – das sonst unsichtbare Innenleben der Transformation wird lesbar.</p>
+        <p><strong>Die Zeichen untersuchen.</strong> Fährt man mit der Maus über ein substituiertes Zeichen wird der Unicode-Name, das Schriftsystem und den visuellen Distanzwert angezeit – das sonst unsichtbare Innenleben der Transformation wird lesbar.</p>
 
         <p><strong>Ketten von Transformationen erzeugen.</strong> Das Ergebnis einer Transformation lässt sich direkt in das Eingabefeld zurückgeben und erneut durch den Alienizer schicken. Bei jedem Durchlauf werden weitere substituierbare Zeichen erfasst; der Text entfernt sich in Schritten von seinem Ursprung.</p>
 
         <p><strong>Texte glitchen.</strong> Ebenso lässt sich ein transformierter Text per Copy-Paste in eine andere Umgebung übertragen – in einen Chat, ein Dokument, eine Website – und dort weiterverwenden, wo sein veränderter Codierungsstatus weitere Effekte erzeugt: gescheiterte Textsuchen, unerwartetes Spracherkennungsverhalten, Irritationen in automatischer Textverarbeitung.</p>
 
         <p><strong>Presets und eigene Einstellungen kombinieren.</strong> Die Presets (Subtil, Schwelle, Drastisch, Total) definieren klar voneinander abgegrenzte Stufen für die Ersetzung; die Slider erlauben eine stufenlose Kontrolle über Substitutionsrate, visuelle Distanz und Schriftauswahl. Außerdem lassen sich Schriftsysteme auswählen, mit denen man arbeiten will.</p>
+
+        <p><strong>Das eigene Web verfremden.</strong> Die Extension (Chrome), bzw. das Add-On (Mozilla Firefox) verfremden jede Textseite, die im Browser angezeigt wird. Auch dabei werden keine Daten übertragen, das Programm funktioniert lokal im Browser.</p>
+
 
         <h3>Welche Schriften wie verwendet werden</h3>
 
@@ -215,7 +218,7 @@
 
         <h3>Technischer Hintergrund</h3>
 
-        <p>Unicode ist der universelle Standard für die schriftbasierte digitale Kommunikation, der jedem Zeichen aus jeder Schrift der Welt eine eindeutige Nummer zuweist – einen sogenannten Codepoint. Das lateinische „a" hat den Codepoint U+0061, das kyrillische „а" U+0430; sie sehen gleich aus, sind aber für jeden Computer zwei völlig verschiedene Dinge. Texte bestehen auf digitaler Ebene nicht aus Bildern von Buchstaben, sondern aus Folgen solcher Nummern. Alienizer tauscht die Codepoints lateinischer Zeichen gegen Codepoints aus anderen Schriftsystemen mit zuvor untersuchter visueller Ähnlichkeit aus. Diese Untersuchung geschieht durch ein Python-Programm, das seine Ergebnisse in Tabellen abgelegt hat, die nun vom Javascript-Algorithmus der Seite genutzt werden – die vorgenommenen Veränderungen bleiben bestehen, wenn der Text kopiert, weitergegeben, gespeichert oder maschinell verarbeitet wird.</p>
+        <p>Unicode ist der universelle Standard für schriftbasierte digitale Kommunikation: Jedes Zeichen jeder Schrift der Welt erhält eine eindeutige Nummer – einen sogenannten Codepoint. Das lateinische „a" hat den Codepoint U+0061, das kyrillische „а" den Codepoint U+0430; visuell sind sie kaum zu unterscheiden, für den Computer aber zwei völlig verschiedene Zeichen. Digitale Texte bestehen nicht aus Bildern von Buchstaben, sondern aus Folgen solcher Nummern. Alienizer ersetzt die Codepoints lateinischer Zeichen durch Codepoints aus anderen Schriftsystemen, deren visuelle Ähnlichkeit zuvor systematisch vermessen wurde: Ein Python-Programm hat dafür Ähnlichkeitstabellen erzeugt, die der JavaScript-Algorithmus dieser Seite zur Laufzeit nutzt. Die Veränderungen bleiben bestehen, wenn der Text kopiert, weitergegeben, gespeichert oder maschinell verarbeitet wird.</p>
 
         <ul>
           <li>Läuft vollständig im Browser, keine Daten werden übertragen</li>
@@ -224,7 +227,7 @@
           <li>Zeicheninspektor: Cursor über einem substituierte Zeichen zeigt Unicode-Name, Schrift, Distanzwert zum Ausgangspunmkt</li>
         </ul>
 
-        <p>Den Codes des Programms (frei verfügbar als CC-Lizenz) und eine Dokumentation des Programms, mit der Python-basierten Ähnlichkeitsanalyse und den erzeugten Tabellen, findet man unter <a href="https://github.com/roloffsimon/alienizer" target="_blank" rel="noopener">github.com/roloffsimon/alienizer</a>.</p>
+        <p>Den Codes des Programms (frei verfügbar als CC-Lizenz) und eine Dokumentation der Pythonanalyse mit den von Alienizer genutzten Tabellen findet man unter <a href="https://github.com/roloffsimon/alienizer" target="_blank" rel="noopener">github.com/roloffsimon/alienizer</a>.</p>
       </section>
 
       <hr class="lang-divider">
@@ -239,43 +242,46 @@
 
         <h3>What Happens</h3>
 
-        <p>The Latin alphabet shares its forms with many other scripts. A Cyrillic „а" (U+0430) and a Latin „a" look identical — but they are two different characters from two different cultures. A Greek „ο" and an Armenian „ο" are very similar; a Georgian „ო" already looks somewhat different. And of course there are characters like the Devanagari म, the Ethiopic ም, or the Adlam 𞤃 — all carrying the same sound but visually occupying entirely different dimensions.</p>
+        <p>The Latin alphabet shares its forms with many other scripts. A Cyrillic "а" (U+0430) and a Latin "a" look identical — but they are two different characters from two different cultures. A Greek "ο" and an Armenian "ο" are very similar; a Georgian "ო" already looks somewhat different. And of course there are characters like the Devanagari म, the Ethiopic ም, or the Adlam 𞤃 — all carrying the same sound but visually occupying entirely different dimensions.</p>
 
-        <p>Alienizer exploits this latitude of script: the program searches the entire Unicode character space — over 150,000 encoded characters from more than 150 writing systems — for characters that resemble a Latin letter or carry the same sound, and offers them as substitutes depending on the desired degree of similarity to the source text.</p>
+        <p>Alienizer exploits these so-called homoglyphs in script: The program searches the entire Unicode character space — over 150,000 encoded characters from more than 150 writing systems — for characters that resemble a Latin letter (or carry the same sound, more on that below), ranks them by degree of similarity to the source text, and substitutes accordingly.</p>
 
-        <p>The substitution of Latin letters with equivalents is also used in a particular form of phishing known as the <em>IDN homograph attack</em>, in which deceptively similar-looking domain names are registered for phishing sites. Alienizer uses this mechanism not to feign identity, but to interrogate the apparent stability of the relationship between sound and written character, word and meaning — in an era increasingly shaped by machine-generated text.</p>
+        <p>The substitution of Latin letters with visually similar equivalents is also the basis of the <em>IDN homograph attack</em>, in which deceptively authentic domain names are registered for phishing. Alienizer uses this same mechanism not for deception, but to call into question the apparent stability of the relationship between sound and sign, word and meaning — in an era increasingly shaped by machine-generated text.</p>
 
         <h3>What You Can Do With It</h3>
 
         <p><strong>Transform and export text.</strong> Download the transformed text as a file or copy it to the clipboard — for use in other programs, as a print template, or for further processing.</p>
 
-        <p><strong>Inspect the characters substituted.</strong> When you hover over a substituted character, a tooltip displays the Unicode name, the script, and the visual distance value — making the otherwise invisible inner workings of the transformation readable.</p>
+        <p><strong>Inspect the substituted characters.</strong> Hovering over a substituted character displays the Unicode name, the writing system, and the visual distance value — making the otherwise invisible inner workings of the transformation readable.</p>
 
-        <p><strong>Create chains of transformations.</strong> The result of a transformation can be returned directly to the input field and run through the Alienizer again. With each pass, additional substitutable characters are captured; the text gradually diverges from its original form.</p>
+        <p><strong>Create chains of transformations.</strong> The result of a transformation can be returned directly to the input field and run through the Alienizer again. With each pass, additional substitutable characters are captured; the text moves further from its origin step by step.</p>
 
-        <p><strong>Glitch text.</strong> Similarly, a transformed text can be transferred via copy-paste to another environment — a chat, a document, a website — and reused there, where its altered encoding status produces further effects: failed text searches, unexpected speech recognition behavior, disruptions in automatic text processing.</p>
+        <p><strong>Glitch text.</strong> A transformed text can also be transferred via copy-paste to another environment — a chat, a document, a website — and reused there, where its altered encoding status produces further effects: failed text searches, unexpected language recognition behavior, disruptions in automatic text processing.</p>
 
-        <p><strong>Combining presets and custom settings.</strong> The presets (Subtle, Threshold, Drastic, Total) define clearly distinct levels of substitution; the sliders allow for continuous control over substitution rate, visual distance, and script selection. Additionally, you can choose which writing systems to work with.</p>
+        <p><strong>Combine presets and custom settings.</strong> The presets (Subtle, Threshold, Drastic, Total) define clearly distinct levels of substitution; the sliders allow continuous control over substitution rate, visual distance, and script selection. Additionally, you can choose which writing systems to work with.</p>
 
+        <p><strong>Alienize your own web.</strong> The extension (Chrome) or add-on (Mozilla Firefox) alienizes any text page displayed in the browser. No data is transmitted here either — the program runs entirely in the local browser.</p>
 
-        <h3>Which scripts are used and how</h3>
+        <h3>Which Scripts Are Used and How</h3>
 
         <p>Alienizer currently supports 46 writing systems: European alphabets (Cyrillic, Greek, Armenian, Georgian), South Asian syllabic scripts (Devanagari, Bengali, Tamil, Malayalam), East Asian scripts (Hiragana, Katakana), Semitic alphabets (Arabic, Hebrew, Syriac), African scripts (Ethiopic, Vai, Bamum, N'Ko, Adlam, Meroitic), and others.</p>
-        <p>To compare visual similarity, the included letters were first rendered as 48×48-pixel bitmaps using a Python program and compared with all Latin letters. The smaller the distance value of the individual pixels, the more similar the character. This distance value ranges from 0.0 (pixel-identical) to 1.0 (completely different). It is possible to freely set the tolerance threshold on the website: narrow for characters that look like perfect copies; wider for characters that begin to show their foreign origin.</p>
-        <p>However, many scripts — Devanagari, Ethiopian, Arabic, Adlam, Vai, Meroitic, and those from the Far East — look so different from the Latin alphabet that they no longer share any obvious visual connection. Their Unicode names, however, reveal a sound: “DEVANAGARI LETTER KA,” “ETHIOPIC SYLLABLE MA,” “ADLAM SMALL LETTER MIIM.” This information is systematically evaluated: A Latin “m” can be replaced by a Devanagari म, a Hebrew מ, or an Adlam 𞤃. This phonetic substitution is only applied starting at a certain level of “Alienization” (“Threshold” in the presets and more strongly in “Drastic” and “Total”), since there is obviously no longer any visual connection to the original letter. In this way, the alienation effect in Alienizer can be gradually increased.</p>
+
+        <p>To compare visual similarity, the included characters were pre-rendered as 48×48-pixel bitmaps by a Python program and compared against all Latin letters. The smaller the pixel distance value, the more similar the character. This distance value ranges from 0.0 (pixel-identical) to 1.0 (completely different). The tolerance threshold can be freely adjusted on the website: narrow for characters that look like perfect copies; wider for characters that begin to reveal their foreign origin.</p>
+
+        <p>However, many scripts — Devanagari, Ethiopic, Arabic, Adlam, Vai, Meroitic, and those from East Asia — look so different from the Latin alphabet that they share no obvious visual connection. Their Unicode names, however, reveal a sound: "DEVANAGARI LETTER KA," "ETHIOPIC SYLLABLE MA," "ADLAM SMALL LETTER MIIM." This information is systematically evaluated: A Latin "m" can be replaced by a Devanagari म, a Hebrew מ, or an Adlam 𞤃. This phonetic substitution is only applied from a certain level of alienization onward ("Threshold" in the presets, and more strongly in "Drastic" and "Total"), since there is obviously no longer any visual connection to the original letter. In this way, the estrangement effect in Alienizer can be gradually increased.</p>
 
         <h3>Technical Background</h3>
 
-        <p>Unicode is the universal standard for text-based digital communication, which assigns a unique number — a so-called codepoint — to every character in every script in the world. The Latin “a” has the code point U+0061, the Cyrillic “а” U+0430; they look the same, but to any computer they are two completely different things. At the digital level, texts do not consist of images of letters, but of sequences of such numbers. Alienizer replaces the codepoints of Latin characters with codepoints from other writing systems that have been previously analyzed for visual similarity. This analysis is performed by a Python program that stores its results in tables, which are then used by the site’s JavaScript algorithm — the changes made remain in place when the text is copied, shared, saved, or processed by machines.</p>
+        <p>Unicode is the universal standard for text-based digital communication: Every character in every script in the world receives a unique number — a so-called codepoint. The Latin "a" has the codepoint U+0061, the Cyrillic "а" U+0430; visually they are nearly indistinguishable, but to the computer they are two entirely different characters. Digital texts do not consist of images of letters but of sequences of such numbers. Alienizer replaces the codepoints of Latin characters with codepoints from other writing systems whose visual similarity has been systematically measured in advance: A Python program generated similarity tables that the JavaScript algorithm of this site uses at runtime. The changes persist when the text is copied, shared, saved, or processed by machines.</p>
 
         <ul>
-          <li>Runs entirely in the browser; no data is transferred</li>
+          <li>Runs entirely in the browser; no data is transmitted</li>
           <li>Precomputed on 167,586 visual similarity pairs from 46 writing systems</li>
           <li>Deterministic: Every transformation with the same seed is reproducible</li>
-          <li>Character Inspector: Hovering over a substituted character displays the Unicode name, font, and distance value from the starting point</li>
+          <li>Character inspector: Hovering over a substituted character displays the Unicode name, script, and distance value from the original</li>
         </ul>
-        <p>The program's source code (freely available under a CC license) and documentation, including the Python-based similarity analysis and the generated tables, can be found at <a href="https://github.com/roloffsimon/alienizer" target="_blank" rel="noopener">github.com/roloffsimon/alienizer</a>. </p>
-      </section>
+
+        <p>The program's source code (freely available under a CC license) and documentation of the Python analysis, including the tables used by Alienizer, can be found at <a href="https://github.com/roloffsimon/alienizer" target="_blank" rel="noopener">github.com/roloffsimon/alienizer</a>.</p>
 
       <!-- Footer -->
       <div class="about-footer">

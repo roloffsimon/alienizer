@@ -1,4 +1,4 @@
-window.__VISUAL_TABLE__ = {
+{
   "a": [
     {
       "dist": 0.0,
@@ -21823,4 +21823,4 @@ window.__VISUAL_TABLE__ = {
       "name": "LATIN LETTER BIDENTAL PERCUSSIVE"
     }
   ]
-};
+}

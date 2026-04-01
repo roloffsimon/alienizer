@@ -612,8 +612,9 @@ input[type="range"]::-moz-range-thumb {
 
   header {
     flex-direction: row;
-    align-items: baseline;
-    gap: 1.5rem;
+    align-items: stretch;
+    gap: 0;
+    padding-top: 0.4rem;
   }
 
   header h1 { font-size: 1.15rem; }
@@ -668,4 +669,67 @@ input[type="range"]::-moz-range-thumb {
   .output-area { height: 260px; }
 
   .controls-scripts { flex: 0 0 200px; }
+}
+
+.header-title-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+/* ---- Extension download links ---- */
+
+.header-ext-links {
+  display: none; /* hidden on mobile */
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.ext-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  line-height: 1;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ext-btn-row {
+  display: flex;
+  margin-top: 0.4rem;
+}
+
+.ext-link {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border-light);
+  border-right: none;
+}
+
+.ext-link:last-child {
+  border-right: 1px solid var(--border-light);
+}
+
+.ext-link:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+@media (min-width: 768px) {
+  .header-ext-links {
+    display: flex;
+    margin-left: auto;
+  }
 }
