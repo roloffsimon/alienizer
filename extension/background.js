@@ -33,15 +33,18 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     const settings = result.alienSettings || DEFAULT_SETTINGS;
     if (!settings.autoActivate) return;
 
-    chrome.scripting.executeScript({
-      target: { tabId },
-      files: ["content.js"],
-    }, () => {
-      if (chrome.runtime.lastError) return; // ignore errors on restricted pages
-      // Mark tab as active in session storage
-      chrome.storage.session.set({ [`tabActive_${tabId}`]: true });
-      // Send activate with current settings
-      chrome.tabs.sendMessage(tabId, { action: "activate", settings }).catch(() => {});
+    // Only auto-inject if the user has granted host permissions
+    chrome.permissions.contains({ origins: ["<all_urls>"] }, (granted) => {
+      if (!granted) return;
+
+      chrome.scripting.executeScript({
+        target: { tabId },
+        files: ["content.js"],
+      }, () => {
+        if (chrome.runtime.lastError) return; // ignore errors on restricted pages
+        chrome.storage.session.set({ [`tabActive_${tabId}`]: true });
+        chrome.tabs.sendMessage(tabId, { action: "activate", settings }).catch(() => {});
+      });
     });
   });
 });

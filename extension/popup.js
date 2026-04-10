@@ -121,7 +121,7 @@ async function init() {
 
 // -- Apply settings to UI -------------------------------------------
 
-function applySettingsToUI() {
+async function applySettingsToUI() {
   // Preset
   highlightPreset(currentSettings.preset);
 
@@ -134,8 +134,13 @@ function applySettingsToUI() {
   // Seed
   seedInput.value = currentSettings.seed != null ? currentSettings.seed : "";
 
-  // Auto-activate
-  autoActivate.checked = currentSettings.autoActivate;
+  // Auto-activate — only show as enabled if permission is actually granted
+  const hasPermission = await chrome.permissions.contains({ origins: ["<all_urls>"] });
+  autoActivate.checked = currentSettings.autoActivate && hasPermission;
+  if (currentSettings.autoActivate && !hasPermission) {
+    currentSettings.autoActivate = false;
+    chrome.storage.sync.set({ alienSettings: currentSettings });
+  }
 }
 
 function updateSliderDisplays() {
@@ -323,8 +328,17 @@ function bindEvents() {
     debouncedUpdate();
   });
 
-  // Auto-activate checkbox
-  autoActivate.addEventListener("change", () => {
+  // Auto-activate checkbox — request/remove host permission
+  autoActivate.addEventListener("change", async () => {
+    if (autoActivate.checked) {
+      const granted = await chrome.permissions.request({ origins: ["<all_urls>"] });
+      if (!granted) {
+        autoActivate.checked = false;
+        return;
+      }
+    } else {
+      await chrome.permissions.remove({ origins: ["<all_urls>"] });
+    }
     const settings = getSettingsFromUI();
     currentSettings = settings;
     chrome.storage.sync.set({ alienSettings: settings });
