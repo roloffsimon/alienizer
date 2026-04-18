@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Alienizer",
-  "version": "1.0.0",
-  "description": "Alienisiert Text auf jeder Webseite — visuelle und phonetische Zeichenersetzung.",
+  "version": "1.0.2",
+  "description": "Alienize text on any webpage — visual and phonetic character substitution.",
   "permissions": ["storage", "activeTab", "scripting"],
   "optional_host_permissions": ["<all_urls>"],
   "browser_specific_settings": {
